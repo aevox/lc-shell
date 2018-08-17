@@ -3,7 +3,6 @@ set nocompatible
 
 filetype off
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -32,6 +31,7 @@ Plugin 'godlygeek/tabular'              " Alignment
 Plugin 'lightcode/PasteMode.vim'        " Improved paste mode
 Plugin 'scrooloose/syntastic'           " Code checker
 Plugin 'tpope/vim-commentary.git'       " Comments
+Plugin 'tpope/vim-fugitive'             " Gblame and Gstatus
 
 " Language specific plugins
 Plugin 'pearofducks/ansible-vim'        " Ansible
@@ -43,6 +43,9 @@ Plugin 'lepture/vim-jinja'              " Jinja
 Plugin 'tpope/vim-markdown'             " Markdown
 Plugin 'davidhalter/jedi-vim'           " Python
 Plugin 'cespare/vim-toml'               " Toml
+Plugin 'nvie/vim-flake8'                " Pyflake, pep8, complexity checker
+Plugin 'LnL7/vim-nix'                   " Nix
+Plugin 'vim-ruby/vim-ruby'              " Ruby
 
 call vundle#end()
 
@@ -319,8 +322,7 @@ nnoremap <silent> <leader><Left> :bprevious<cr>
 nnoremap <silent> <leader><Right> :bnext<cr>
 
 " Toggle copy/paste mode
-nnoremap <silent> <C-k><C-p> :PasteModeToggle<cr>
-inoremap <C-k><C-p> <C-O>:PasteModeToggle<cr>
+nnoremap <silent> <F2> :PasteModeToggle<cr>
 
 " Check the code with syntastic
 nnoremap <silent> cc :SyntasticCheck<cr> :Errors<cr>
@@ -329,7 +331,7 @@ nnoremap <silent> cp :lprevious<cr>
 nnoremap <silent> cn :lnext<cr>
 
 " Strip trailing whitespace
-nnoremap <silent> <leader>s :call StripTrailingWhitespaces()<cr>
+nnoremap <silent> <F9> : call StripTrailingWhitespaces()<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -348,6 +350,7 @@ augroup LanguageConfiguration
     autocmd FileType make          setlocal noexpandtab nolist
     autocmd FileType php           setlocal formatprg=par\ -w80\ -T4
     autocmd FileType python        setlocal colorcolumn=79 completeopt-=preview listchars=tab:>.,
+    autocmd FileType gitcommit     setlocal colorcolumn=72
     autocmd FileType ruby          setlocal tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType sh,zsh        setlocal tabstop=2 shiftwidth=2 softtabstop=2
     autocmd FileType verilog       setlocal tabstop=2 shiftwidth=2 softtabstop=2
@@ -432,3 +435,63 @@ function! HugoMarkdown()
     hi link hugoHighlight markdownCode
     hi link hugoFrontmatter Comment
 endfunction
+
+" {W} -> [É]
+" ——————————
+" On remappe W sur É :
+noremap é w
+noremap É W
+" Corollaire, pour effacer/remplacer un mot quand on n'est pas au début :
+noremap aé aw
+noremap aÉ aW
+" Pour faciliter les manipulations de fenêtres, on utilise {W} comme un Ctrl+W :
+noremap w <C-w>
+noremap W <C-w><C-w>
+
+" [HJKL] -> {TSRN}
+" ————————————————
+" {cr} = « gauche / droite »
+noremap t h
+noremap n l
+" {ts} = « haut / bas »
+noremap s j
+noremap r k
+" {CR} = « haut / bas de l'écran »
+noremap T H
+noremap N L
+" {TS} = « joindre / aide »
+noremap S J
+noremap R K
+
+" {HJKL} <- [TSRN]
+" ————————————————
+" {J} = « Jusqu'à »            (j = suivant, J = précédant)
+noremap j s
+noremap J S
+" {L} = « Change »             (h = bloc, H = jusqu'à la fin de ligne)
+noremap l t
+noremap L T
+" {H} = « Remplace »           (l = caractère, L = texte)
+noremap h n
+noremap H N
+" {K} = « Supprime et insère » (k = caractère, K = ligne)
+noremap k r
+noremap K R
+" pour la correction orthographique
+noremap ]k ]r
+noremap [k [r
+
+" Désambiguation de {g}
+" —————————————————————
+" ligne précédante / suivante (à l'intérieur d'une phrase)
+noremap gr gk
+noremap gs gj
+" onglet précédant / suivant
+noremap gb gT
+noremap gé gt
+" premier / dernier onglet
+noremap gB :exe "silent! tabfirst"<CR>
+noremap gÉ :exe "silent! tablast"<CR>
+" repli suivant / précédent
+noremap zr zj
+noremap zs zk

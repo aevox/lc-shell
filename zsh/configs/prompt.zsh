@@ -4,7 +4,7 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' use-simple true
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' max-exports 1
-zstyle ':vcs_info:*' formats '%%B%F{2}%b%f%%b%c%u%m'
+zstyle ':vcs_info:*' formats '%%B%F{3}%b%f%%b%c%u%m'
 zstyle ':vcs_info:*' actionformats '%%B%F{2}%b%f%%b:%%B%F{3}%a%f%%b%c%u%m'
 zstyle ':vcs_info:*' stagedstr ' %B%F{2}✚%f%b'
 zstyle ':vcs_info:*' unstagedstr ' %B%F{4}✱%f%b'
@@ -58,10 +58,19 @@ function +vi-git-stashed() {
 
 function precmd() {
   vcs_info
+
+  KUBECONFIG=${KUBECONFIG:-~/.kube/config}
+  k8s_cluster=$(sed -n '/current-context: / s/current-context: //p' "$KUBECONFIG")
+  if [[ "$k8s_cluster" == stg* ]] || [[ "$k8s_cluster" == prd* ]]; then
+    color="%B%K{1}"
+  else
+    color="%F{5}"
+  fi
+  k8s_prompt="$color$k8s_cluster%f%b%k"
 }
 
 
 setopt PROMPT_SUBST
 
-PROMPT='%F{4}%3~%(!. %B%F{1}#%f%b.) %B%F{1}❯%F{3}❯%F{2}❯%f%b '
-RPROMPT='${vcs_info_msg_0_}'
+PROMPT='%B%F{4}%3~%(!. %F{1}#%f.) %F{1}❯%F{3}❯%F{2}❯%f%b '
+RPROMPT='${k8s_prompt} ${vcs_info_msg_0_}'
