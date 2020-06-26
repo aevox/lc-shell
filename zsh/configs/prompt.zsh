@@ -58,17 +58,22 @@ function +vi-git-stashed() {
 
 function precmd() {
   vcs_info
-
-  KUBECONFIG=${KUBECONFIG:-~/.kube/config}
-  k8s_cluster=$(sed -n '/current-context: / s/current-context: //p' "$KUBECONFIG")
+  k8s_cluster=""
+  if [[ -f ~/.kube/config ]]; then
+    k8s_cluster=$(sed -n '/current-context: / s/current-context: //p' "/home/marc/.kube/config")
+  fi
   if [[ "$k8s_cluster" == stg* ]] || [[ "$k8s_cluster" == prd* ]]; then
     color="%B%K{1}"
   else
     color="%F{5}"
   fi
   k8s_prompt="$color$k8s_cluster%f%b%k"
-}
 
+
+  vault_addr=""
+  vault_addr=$(sed 's/.*vault-adm.service\.\(.*\)\.cloudwatt.*/\1/' <<< $VAULT_ADDR)
+
+}
 
 setopt PROMPT_SUBST
 

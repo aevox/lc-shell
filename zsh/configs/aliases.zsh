@@ -11,8 +11,9 @@ if (( $+commands[exa] )) ; then
   alias l='exa -lg'
   alias ll='l -a'
 else
-  alias l='ls -lh'
-  alias ll='l -A'
+  alias ls='ls -F --color=auto'
+  alias l='ls -lhF'
+  alias ll='l -AF'
 fi
 
 alias df='df -kh'
@@ -24,5 +25,7 @@ alias gl='git log --topo-order --pretty=format:"%C(bold)Commit:%C(reset) %C(gree
 alias gls='gl --graph --pretty=oneline --abbrev-commit'
 alias gp='git push'
 alias gws='git status --ignore-submodules=none --short'
+
+alias tree='tree -I vendor'
 
 for index ({1..9}) alias "$index"="cd +${index}"; unset index

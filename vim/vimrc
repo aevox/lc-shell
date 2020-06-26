@@ -251,6 +251,7 @@ set showcmd
 " Visual autocomplete for command menu
 set wildmenu
 set wildignore=*.swp,*.bak,*.pyc,*.class
+set directory^=$HOME/.vim/tmp//
 " Don't redraw when don't have to
 set lazyredraw
 " Keep at least 5 lines above/below
@@ -318,8 +319,8 @@ nnoremap <silent> <leader><cr> :noh<cr>
 nnoremap <silent> <leader>q :GracefulQuit<cr>
 
 " Fast moving between buffers
-nnoremap <silent> <leader><Left> :bprevious<cr>
-nnoremap <silent> <leader><Right> :bnext<cr>
+nnoremap <silent> <leader>t :bprevious<cr>
+nnoremap <silent> <leader>n :bnext<cr>
 
 " Toggle copy/paste mode
 nnoremap <silent> <F2> :PasteModeToggle<cr>
