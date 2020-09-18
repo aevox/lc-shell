@@ -18,6 +18,8 @@ Plugin 'chrisbra/SudoEdit.vim'          " Edit/Write via sudo
 Plugin 'reedes/vim-pencil'              " Vim as a tool writing
 
 " User interface
+Plugin 'preservim/nerdtree'             " File system explorer
+Plugin 'preservim/tagbar'               " Easy way to browse the tags of the current file
 Plugin 'bling/vim-airline'              " Custom status bar
 Plugin 'kien/ctrlp.vim'                 " Fuzzy search
 Plugin 'mileszs/ack.vim'                " Search in directory
@@ -34,18 +36,18 @@ Plugin 'tpope/vim-commentary.git'       " Comments
 Plugin 'tpope/vim-fugitive'             " Gblame and Gstatus
 
 " Language specific plugins
-Plugin 'pearofducks/ansible-vim'        " Ansible
-Plugin 'vim-scripts/bats.vim'           " Bats
+"Plugin 'pearofducks/ansible-vim'        " Ansible
+"Plugin 'vim-scripts/bats.vim'           " Bats
 Plugin 'ekalinin/Dockerfile.vim'        " Dockerfile
 Plugin 'fatih/vim-go'                   " Go
-Plugin 'jelera/vim-javascript-syntax'   " JavaScript
-Plugin 'lepture/vim-jinja'              " Jinja
+"Plugin 'jelera/vim-javascript-syntax'   " JavaScript
+"Plugin 'lepture/vim-jinja'              " Jinja
 Plugin 'tpope/vim-markdown'             " Markdown
 Plugin 'davidhalter/jedi-vim'           " Python
-Plugin 'cespare/vim-toml'               " Toml
+"Plugin 'cespare/vim-toml'               " Toml
 Plugin 'nvie/vim-flake8'                " Pyflake, pep8, complexity checker
 Plugin 'LnL7/vim-nix'                   " Nix
-Plugin 'vim-ruby/vim-ruby'              " Ruby
+"Plugin 'vim-ruby/vim-ruby'              " Ruby
 
 call vundle#end()
 
@@ -53,6 +55,19 @@ call vundle#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""
+" Plugin 'preservim/nerdtree'
+"""
+
+nmap <F3> :NERDTreeToggle<CR>
+
+"""
+" Plugin 'preservim/tagbar'
+"""
+
+nmap <F4> :TagbarToggle<CR>
+
 
 """
 " Plugin 'mileszs/ack.vim'
@@ -79,6 +94,11 @@ let g:pencil#autoformat = 0
 let g:pencil#conceallevel = 0
 let g:pencil#wrapModeDefault = 'soft'
 
+"""
+" Plugin 'ervandew/supertab'
+"""
+
+let g:SuperTabDefaultCompletionType = "context"
 
 """
 " Plugin 'fatih/vim-go'
@@ -93,6 +113,10 @@ let g:go_highlight_build_constraints = 1
 if executable('goimports')
     let g:go_fmt_command = 'goimports'
 endif
+
+set completeopt-=preview ""Disable scracth
+
+"au filetype go inoremap <buffer> . .<C-x><C-o>
 
 
 """
