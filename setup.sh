@@ -112,7 +112,7 @@ _main() {
 
   _setup_lcshell
   _setup_vim
-  _setup_zsh
+#  _setup_zsh
   _setup_tmux
 }
 
